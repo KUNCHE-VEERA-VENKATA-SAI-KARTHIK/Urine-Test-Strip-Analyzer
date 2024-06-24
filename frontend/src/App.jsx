@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import axios from 'axios'
-import Api from './Api/ApiConfig';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
 
 import './App.css'
 
 function App() {
   
-  const [inputText, setInputText] = useState('');
+  
   const [selectedImage, setSelectedImage] = useState(null);
   const [responseData, setResponseData] = useState(null);
   const [error, setError] = useState(null);
@@ -18,7 +20,7 @@ function App() {
     event.preventDefault();
 
     const formData = new FormData();
-    formData.append('text', inputText);
+    
 
     if (selectedImage) {
       formData.append('image', selectedImage,selectedImage.name);
@@ -46,56 +48,56 @@ function App() {
 
 
   
-    // function handleChange(e) {
-    //     console.log(e.target.files);
-    //     setFile(URL.createObjectURL(e.target.files[0]));
-    // }
-
-   
   
-      // const handleSubmit = async () => {
-      //   if (!file) {
-      //     return alert('Please select an image');
-      //   }
-    
-      //   const formData = new FormData();
-      //   formData.append('file', file);
-
-      //   console.log(formData);
-    
-      //   Api.post("detect/", formData[0], {
-      //     headers: {
-      //       "Content-Type": "multipart/form-data",
-     
-      //     }
-      //   }).then((res) => {
-      //     console.log(res.data);
-          
-      //   });
-      // }
  
     
         return (
-          <div>
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="inputText">Enter Text:</label>
-      <input
-        id="inputText"
-        type="text"
-        value={inputText}
-        
-        onChange={(e) => setInputText(e.target.value)}
-      />
-       <label htmlFor="imageFile">Select Image (optional):</label>
-      <input
-        id="imageFile"
-        type="file"
-        accept="image/*"
-        onChange={handleImageChange}
-      />
-      <button type="submit">Send Text</button>
-    </form>
-   
+          <div className="container mt-5">
+      <form onSubmit={handleSubmit}>
+       
+
+        <div className="mb-3">
+          <label htmlFor="imageFile" className="form-label">Select Image :</label>
+          <input
+            id="imageFile"
+            type="file"
+            className="form-control"
+            accept="image/*"
+            onChange={handleImageChange}
+          />
+        </div>
+
+        <button type="submit" className="btn btn-primary">Send Text</button>
+      </form>
+      
+       {responseData && (
+        <div className="container mt-5">
+          <h2>Data Table</h2>
+          <table className="table table-bordered table-striped">
+            <thead className="table-dark">
+              <tr>
+                <th>Parameter</th>
+                <th>Value 1</th>
+                <th>Value 2</th>
+                <th>Value 3</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.keys(responseData).map((key) => (
+                <tr key={key}>
+                  <td>{key}</td>
+                  {responseData[key].map((value, index) => (
+                    <td key={index}>{value}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+
+      
     </div>
   );
 }
